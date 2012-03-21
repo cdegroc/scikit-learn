@@ -586,8 +586,7 @@ class TfidfTransformer(BaseEstimator, TransformerMixin):
                 raise ValueError("Input has n_features=%d while the model"
                                  " has been trained with n_features=%d" % (
                                      n_features, expected_n_features))
-            d = sp.lil_matrix((n_features, n_features))
-            d.setdiag(self.idf_)
+            d = sp.dia_matrix((self.idf_, 0), shape=(n_features, n_features))
             # *= doesn't work
             X = X * d
 
